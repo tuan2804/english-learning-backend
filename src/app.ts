@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
+import postRoutes from "./routes/postRoutes";
 
 dotenv.config();
 
@@ -12,5 +13,6 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("API is running"));
 app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
 
 export default app;
