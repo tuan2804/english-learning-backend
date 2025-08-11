@@ -17,7 +17,9 @@ export const createPost = async (req: Request, res: Response) => {
 // Get all posts
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find().populate("user", "username email");
+    const posts = await Post.find()
+      .populate("user", "username email")
+      .populate("corrections.user", "username email");  // thêm dòng này
     res.json(posts);
   } catch (error) {
     res.status(500).json({ message: "Lỗi server" });
@@ -27,13 +29,16 @@ export const getPosts = async (req: Request, res: Response) => {
 // Get single post
 export const getPostById = async (req: Request, res: Response) => {
   try {
-    const post = await Post.findById(req.params.id).populate("user", "username");
+    const post = await Post.findById(req.params.id)
+      .populate("user", "username email")
+      .populate("corrections.user", "username email");  // thêm dòng này
     if (!post) return res.status(404).json({ message: "Không tìm thấy bài viết" });
     res.json(post);
   } catch (error) {
     res.status(500).json({ message: "Lỗi server" });
   }
 };
+
 
 // Delete a post
 export const deletePost = async (req: Request, res: Response) => {

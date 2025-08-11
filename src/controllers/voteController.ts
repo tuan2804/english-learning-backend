@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Vote from "../models/Vote";
 import Comment from "../models/Comment";
 
-// Thêm hoặc bỏ vote
+// Thêm hoặc bỏ Like
 export const toggleVote = async (req: Request, res: Response) => {
   try {
     const { commentId } = req.body;
@@ -14,29 +14,29 @@ export const toggleVote = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Comment không tồn tại" });
     }
 
-    // Kiểm tra đã vote chưa
+    // Kiểm tra đã like chưa
     const existingVote = await Vote.findOne({ commentId, userId });
     if (existingVote) {
-      // Nếu đã vote => bỏ vote
+      // Nếu đã like => bỏ like
       await Vote.deleteOne({ _id: existingVote._id });
-      return res.json({ message: "Bỏ vote thành công", voted: false });
+      return res.json({ message: "Bỏ like thành công", liked: false });
     }
 
-    // Nếu chưa vote => thêm vote
+    // Nếu chưa like => thêm like
     const vote = await Vote.create({ commentId, userId });
-    res.status(201).json({ message: "Vote thành công", voted: true, vote });
+    res.status(201).json({ message: "Like thành công", liked: true, vote });
   } catch (error) {
-    res.status(500).json({ message: "Vote thất bại", error });
+    res.status(500).json({ message: "Like thất bại", error });
   }
 };
 
-// Lấy số vote của một comment
+// Lấy số like của một comment
 export const getVotesByComment = async (req: Request, res: Response) => {
   try {
     const { commentId } = req.params;
     const count = await Vote.countDocuments({ commentId });
-    res.json({ commentId, votes: count });
+    res.json({ commentId, likes: count });
   } catch (error) {
-    res.status(500).json({ message: "Lấy số vote thất bại", error });
+    res.status(500).json({ message: "Lấy số like thất bại", error });
   }
 };

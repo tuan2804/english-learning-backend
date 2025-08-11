@@ -5,6 +5,7 @@ import authRoutes from "./routes/authRoutes";
 import postRoutes from "./routes/postRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import voteRoutes from "./routes/voteRoutes";
+import correctionRoutes from "./routes/correctionRoutes";
 
 dotenv.config();
 
@@ -19,4 +20,5 @@ app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/votes", voteRoutes);
 
+app.use("/api/corrections", correctionRoutes);
 export default app;
